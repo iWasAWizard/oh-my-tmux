@@ -6,17 +6,18 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_FILE="${SCRIPT_DIR}/.tmux.conf"
 TARGET_FILE="${HOME}/.tmux.conf"
 
+if ! command -v tmux >/dev/null 2>&1; then
+  echo "tmux is required but was not found in PATH" >&2
+  exit 1
+fi
+
 if [[ ! -f "${SOURCE_FILE}" ]]; then
   echo "Could not find ${SOURCE_FILE}" >&2
   exit 1
 fi
 
-SOURCE_REALPATH="$(realpath "${SOURCE_FILE}")"
-
 if [[ -e "${TARGET_FILE}" || -L "${TARGET_FILE}" ]]; then
-  TARGET_REALPATH="$(realpath "${TARGET_FILE}" 2>/dev/null || true)"
-
-  if [[ "${TARGET_REALPATH}" == "${SOURCE_REALPATH}" ]]; then
+  if [[ "${TARGET_FILE}" -ef "${SOURCE_FILE}" ]]; then
     echo "tmux config is already installed at ${TARGET_FILE}"
     exit 0
   fi

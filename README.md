@@ -19,7 +19,7 @@ A small tmux setup focused on sensible defaults, faster pane movement, and an ea
 
 ## Installation
 
-Clone the repository and run the installer:
+Make sure `tmux` is installed, then clone the repository and run the installer:
 
 ```bash
 git clone https://github.com/iWasAWizard/oh-my-tmux.git
